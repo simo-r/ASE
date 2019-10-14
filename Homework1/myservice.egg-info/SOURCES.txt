@@ -1,0 +1,17 @@
+MANIFEST.in
+requirements.txt
+setup.py
+myservice/__init__.py
+myservice/app.py
+myservice/settings.ini
+myservice.egg-info/PKG-INFO
+myservice.egg-info/SOURCES.txt
+myservice.egg-info/dependency_links.txt
+myservice.egg-info/not-zip-safe
+myservice.egg-info/top_level.txt
+myservice/classes/__init__.py
+myservice/classes/quiz.py
+myservice/tests/__init__.py
+myservice/tests/test_quiz.py
+myservice/views/__init__.py
+myservice/views/quizzes.py
