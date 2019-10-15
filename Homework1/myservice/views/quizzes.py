@@ -12,71 +12,79 @@ _MSG = 'msg'
 @quizzes.route("/quizzes", methods=['GET', 'POST'])
 def all_quizzes():
     if 'POST' == request.method:
+        # Create a new quiz exploiting the already provided method.
         result = create_quiz(request)
     elif 'GET' == request.method:
+        # Retrieve all loaded quizzes exploiting the already provided method.
         result = get_all_quizzes(request)
-        # Retrieve all loaded quizzes
+
+    # This warning situation will never happen because
+    # this method will always enter in either the POST or the GET if statement.
     return result
 
 
 @quizzes.route("/quizzes/loaded", methods=['GET'])
-def loaded_quizzes():  # returns the number of quizzes currently loaded in the system
-    return jsonify({'loaded_quizzes': len(_LOADED_QUIZZES)})
+def loaded_quizzes():
+    # Return the correct number identified by the variable _LOADED_QUIZZES.
+    # return jsonify({'loaded_quizzes': len(_LOADED_QUIZZES)})
+    return jsonify(loaded_quizzes=len(_LOADED_QUIZZES))
 
 
-# TODO: complete the decoration
 @quizzes.route("/quiz/<id>", methods=['GET', 'DELETE'])
 def single_quiz(id):
     global _LOADED_QUIZZES
     result = ""
-
+    # Check if the quiz is an existing one: raises an HTTPException automatically.
     exists_quiz(id)
     if 'GET' == request.method:
+        # Retrieve a quiz <id> from the _LOADED_QUIZZES variable.
         var = _LOADED_QUIZZES[id]
-        # TODO Al posto di serialize, vedi di rimuovere l'ID dalla risposta
         result = var.serialize()
 
     elif 'DELETE' == request.method:
-        # TODO: delete a quiz and get back number of answered questions
-        # and total number of questions
+        # Delete a quiz and get back the number of
+        # answered questions and total number of questions.
         quiz = _LOADED_QUIZZES[id]
         result = {"answered_questions": quiz.currentQuestion, "total_questions": len(quiz.questions)}
         del _LOADED_QUIZZES[id]
 
-        #
     return jsonify(result)
 
 
-# TODO: complete the decoration
 @quizzes.route("/quiz/<id>/question", methods=['GET'])
 def play_quiz(id):
     global _LOADED_QUIZZES
     result = ""
 
-    # TODO: check if the quiz is an existing one
+    # Check if the quiz is an existing one: raises an HTTPException automatically.
     exists_quiz(id)
 
     if 'GET' == request.method:
-        # TODO: retrieve next question in a quiz, handle exceptions
+        # Retrieve the next question in a quiz,
+        # handle exceptions returning a proper JSON for each exception.
         try:
             result = _LOADED_QUIZZES[id].getQuestion()
         except CompletedQuizError:
             result = {_MSG: 'completed quiz'}
         except LostQuizError:
             result = {_MSG: 'you lost!'}
+
     return jsonify(result)
 
 
-# TODO: complete the decoration
 @quizzes.route("/quiz/<id>/question/<answer>", methods=['PUT'])
 def answer_question(id, answer):
     global _LOADED_QUIZZES
     result = ""
-    # TODO: check if the quiz is an existing one
+    # Check if the quiz is an existing one: raises an HTTPException automatically.
     exists_quiz(id)
+
+    # Retrieve the quiz identified by id.
     quiz = _LOADED_QUIZZES[id]
 
-    # TODO: check if quiz is lost or completed and act consequently
+    # Check if a quiz is lost or completed and act consequently
+    # I exploited the isOpen() method which checks for both
+    # and raises exceptions and returns proper JSON response if needed.
     try:
         quiz.isOpen()
     except CompletedQuizError:
@@ -85,7 +93,8 @@ def answer_question(id, answer):
         return jsonify({_MSG: "you lost!"})
 
     if 'PUT' == request.method:
-        # TODO: Check answers and handle exceptions
+        # Check the answer provided by the user
+        # and handle exceptions returning a proper JSON response.
         try:
             result = quiz.checkAnswer(answer)
         except CompletedQuizError:
@@ -94,7 +103,6 @@ def answer_question(id, answer):
             result = 'you lost!'
         except NonExistingAnswerError:
             result = 'non-existing answer!'
-
     return jsonify({_MSG: result})
 
 
