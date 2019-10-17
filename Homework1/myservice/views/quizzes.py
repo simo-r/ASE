@@ -36,7 +36,6 @@ def all_quizzes():
 @quizzes.route("/quizzes/loaded", methods=[_GET])
 def loaded_quizzes():
     # Return the correct number identified by the variable _LOADED_QUIZZES.
-    # return jsonify({'loaded_quizzes': len(_LOADED_QUIZZES)})
     return jsonify(loaded_quizzes=len(_LOADED_QUIZZES))
 
 
