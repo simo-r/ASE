@@ -1,10 +1,7 @@
 language: python
-python: 3.6
-env:
-  - TOX_ENV=py36
-before_install:
-  - gem install rake
+python:
+  - "3.6"
 install:
-  - pip install tox
+  - pip install -r requirements.txt
 script:
-  - tox -e $TOX_ENV
+  - pytest
