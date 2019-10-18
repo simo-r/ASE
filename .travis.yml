@@ -1,7 +1,11 @@
 language: python
 python:
   - "3.6"
+env:
+  - TOX_ENV=py36
 install:
   - pip install -r requirements.txt
+  - pip install tox
 script:
   - pytest
+  - tox -e $TOX_ENV
