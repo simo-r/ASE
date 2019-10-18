@@ -1,13 +1,13 @@
 import unittest
 import json
 from flask import request, jsonify
-from myservice.app import app as tested_app
+from myservice.app import app as application
 
 
 class TestApp(unittest.TestCase):
 
     def test1(self):  # allpolls
-        app = tested_app.test_client()
+        app = application.test_client()
 
         # no loaded quiz
         reply = app.get('/quizzes/loaded')
@@ -326,7 +326,7 @@ class TestApp(unittest.TestCase):
         })
 
     def test2(self):  # /quiz
-        app = tested_app.test_client()
+        app = application.test_client()
 
         # retrieve existing quiz 
         reply = app.get('/quiz/2')
@@ -806,7 +806,7 @@ class TestApp(unittest.TestCase):
                          )
 
     def test3(self):
-        app = tested_app.test_client()
+        app = application.test_client()
         reply = app.post('/quizzes',
                          data=json.dumps({
                              "questions": [
