@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
     install_requires = deps
 
 
-setup(name='myservice',
+setup(name='hw1service',
       version="0.1",
       packages=find_packages(),
       zip_safe=False,

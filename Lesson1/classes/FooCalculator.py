@@ -1,4 +1,4 @@
-from classes import calculator as c
+from . import calculator as c
 
 
 class FooCalculator:

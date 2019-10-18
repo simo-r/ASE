@@ -1,8 +1,7 @@
 import os
-from skeleton.myservice.views import blueprints
 from flakon import create_app
+from hw1service.views import blueprints
 from flask_profiler import Profiler
-
 
 _HERE = os.path.dirname(__file__)
 _SETTINGS = os.path.join(_HERE, 'settings.ini')
@@ -25,9 +24,8 @@ app.config["flask_profiler"] = {
     ]
 }
 
-profiler = Profiler(app)
+profiler = Profiler(app)  # You can have this in another module
 
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=5000)
-

@@ -15,7 +15,7 @@ def sign(n):
 
 @calc.route('/calc/sum', methods=['GET'])
 def sum():
-    # http://127.0.0.1:500/calc/sum?m=3&n=5
+    # http://127.0.0.1:5000/calc/sum?m=3&n=5
     m = int(request.args.get('m'))
     n = int(request.args.get('n'))
     print(m)

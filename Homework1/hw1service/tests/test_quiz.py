@@ -1,7 +1,7 @@
 import unittest
 import json
 from flask import request, jsonify
-from myservice.app import app as application
+from hw1service.app import app as application
 
 
 class TestApp(unittest.TestCase):

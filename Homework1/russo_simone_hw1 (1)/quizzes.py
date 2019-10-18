@@ -1,6 +1,6 @@
 from flakon import JsonBlueprint
 from flask import request, jsonify, abort
-from myservice.classes.quiz import Quiz, Question, Answer, NonExistingAnswerError, LostQuizError, CompletedQuizError
+from hw1service.classes.quiz import Quiz, Question, Answer, NonExistingAnswerError, LostQuizError, CompletedQuizError
 
 quizzes = JsonBlueprint('quizzes', __name__)
 
