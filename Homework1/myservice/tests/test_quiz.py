@@ -404,7 +404,7 @@ class TestApp(unittest.TestCase):
             ],
             "question": "Who's Wilma's husband?"
         }
-        )
+                         )
 
         # correct answer
         reply = app.put('/quiz/2/question/Fred',
@@ -433,7 +433,7 @@ class TestApp(unittest.TestCase):
             ],
             "question": "Who's Fred's daughter?"
         }
-        )
+                         )
         # answer ok
         reply = app.put('/quiz/2/question/Pebbles',
                         content_type='application/json')
@@ -444,7 +444,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(body, {
             "msg": 2
         }
-        )
+                         )
 
         # answer ok: won a million clams
         reply = app.put('/quiz/2/question/Dyno',
@@ -456,7 +456,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(body, {
             "msg": "you won 1 million clams!"
         }
-        )
+                         )
         # double call to complete quiz
         reply = app.get('/quiz/2/question', content_type='application/json')
 
@@ -489,7 +489,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(body, {
             "msg": 1
         }
-        )
+                         )
 
         # wrong answer
         reply = app.put('/quiz/0/question/1', content_type='application/json')
@@ -498,7 +498,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(body, {
             "msg": "you lost!"
         }
-        )
+                         )
         # double call to lost quiz
         reply = app.put('/quiz/0/question/21', content_type='application/json')
 
@@ -506,7 +506,7 @@ class TestApp(unittest.TestCase):
         self.assertEqual(body, {
             "msg": "you lost!"
         }
-        )
+                         )
         # triple call to lost quiz
         reply = app.get('/quiz/0/question', content_type='application/json')
 
@@ -520,7 +520,7 @@ class TestApp(unittest.TestCase):
             "answered_questions": 4,
             "total_questions": 3
         }
-        )
+                         )
 
         # two loaded quizzes
         reply = app.get('/quizzes/loaded')
@@ -803,4 +803,106 @@ class TestApp(unittest.TestCase):
             "answered_questions": 0,
             "total_questions": 3
         }
-        )
+                         )
+
+    def test3(self):
+        app = tested_app.test_client()
+        reply = app.post('/quizzes',
+                         data=json.dumps({
+                             "questions": [
+                                 {
+                                     "question": "What's the answer to all questions?",
+                                     "answers": [
+                                         {
+                                             "answer": "33",
+                                             "correct": 0
+                                         },
+                                         {
+                                             "answer": "42",
+                                             "correct": 1
+                                         },
+                                         {
+                                             "answer": "1",
+                                             "correct": 0
+                                         }
+                                     ]
+                                 },
+                                 {
+                                     "question": "What's the answer to all questions?",
+                                     "answers": [
+                                         {
+                                             "answer": "33",
+                                             "correct": 0
+                                         },
+                                         {
+                                             "answer": "42",
+                                             "correct": 1
+                                         },
+                                         {
+                                             "answer": "1",
+                                             "correct": 0
+                                         }
+                                     ]
+                                 }
+                             ]
+                         }),
+                         content_type='application/json')
+
+        body = json.loads(str(reply.data, 'utf8'))
+        before_delete = body['quiznumber']
+        self.assertEqual(body['quiznumber'], 4)
+
+        # delete quiz
+        reply = app.delete('/quiz/0')
+        body = json.loads(str(reply.data, 'utf8'))
+        self.assertEqual(body, {
+            "answered_questions": -1,
+            "total_questions": 2
+        })
+
+        reply = app.post('/quizzes',
+                         data=json.dumps({
+                             "questions": [
+                                 {
+                                     "question": "What's the answer to all questions?",
+                                     "answers": [
+                                         {
+                                             "answer": "33",
+                                             "correct": 0
+                                         },
+                                         {
+                                             "answer": "42",
+                                             "correct": 1
+                                         },
+                                         {
+                                             "answer": "1",
+                                             "correct": 0
+                                         }
+                                     ]
+                                 },
+                                 {
+                                     "question": "What's the answer to all questions?",
+                                     "answers": [
+                                         {
+                                             "answer": "33",
+                                             "correct": 0
+                                         },
+                                         {
+                                             "answer": "42",
+                                             "correct": 1
+                                         },
+                                         {
+                                             "answer": "1",
+                                             "correct": 0
+                                         }
+                                     ]
+                                 }
+                             ]
+                         }),
+                         content_type='application/json')
+
+        body = json.loads(str(reply.data, 'utf8'))
+        before_delete = body['quiznumber']
+        self.assertEqual(body['quiznumber'], 5)
+
+

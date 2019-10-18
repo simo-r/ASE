@@ -3,13 +3,15 @@ from flask import Flask, request, jsonify
 
 calc = JsonBlueprint('calc', __name__)
 
-#IMPLEMENT OTHER METHODS
+
+# IMPLEMENT OTHER METHODS
 
 def sign(n):
     result = 1
     if n < 0:
         result = -1
     return result
+
 
 @calc.route('/calc/sum', methods=['GET'])
 def sum():
@@ -22,13 +24,14 @@ def sum():
     for x in range(abs(n)):
         m += added_value
 
-    return jsonify({'result': str(m)})
+    return jsonify({'result': m})
+
 
 @calc.route('/calc/sub', methods=['GET'])
 def subtract():
     m = int(request.args.get('m'))
     n = int(request.args.get('n'))
-    return jsonify({'result': str(sum(m,-1*n))})
+    return jsonify({'result': sum(m, -1 * n)})
 
 
 @calc.route('/calc/div', methods=['GET'])
@@ -45,7 +48,7 @@ def divide():
         result += 1
     if initial_value < 0:
         result -= 1
-    return jsonify({'result': str(result * n_sign * m_sign)})
+    return jsonify({'result': result * n_sign * m_sign})
 
 
 @calc.route('/calc/mul', methods=['GET'])
@@ -56,5 +59,5 @@ def multiply():
     m_sign = sign(m)
     n_sign = sign(n)
     for x in range(n):
-        m +=sum_value
-    return jsonify({'result': str(m * m_sign * n_sign)})
+        m += sum_value
+    return jsonify({'result': m * m_sign * n_sign})

@@ -1,1 +1,1 @@
-from myservice.app import app   # NOQA
+from myservice.app import app  # NOQA
