@@ -1,0 +1,6 @@
+[run]
+include =
+    */Homework1/*
+    */Lesson1/*
+    */Lesson3/*
+    */Lesson4/*
