@@ -34,7 +34,7 @@ swagger-parser==1.0.1
 swagger-spec-validator==2.4.3
 toml==0.10.0
 tox==3.14.0
-urllib3==1.25.6
+urllib3==1.26.5
 virtualenv==16.7.6
 wcwidth==0.1.7
 Werkzeug==0.16.0
